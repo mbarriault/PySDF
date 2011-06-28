@@ -1,0 +1,18 @@
+To build the module, run
+python setup.py build
+Though untested, the install command should work as well, since the build process just uses distutils.
+
+Note that pysdfmodule.c doesn't work properly. The module uses the C++ implementation. I've kept the C version there for potential future development.
+
+The module provides two methods
+
+read(filename, level)
+Reads SDF file filename, pulling specified time level. Returns a tuple
+gridf_name, time, cnames, coords, data
+where gridf_name is the grid function name, time is the time coordinate, cnames is the coordinate names (such as "x|y|z"), coords is a 1D packed coordinate array (all discrete x-values, followed by y, etc), and data is a Fortran-ordered multidimensional NumPy array. Uses gft_read_full()
+If any bbhutil method fails, only an integer is returned with the error code.
+
+write(gridf_name, time, cnames, coords, data)
+Writes SDF grid function to appropriate file based on gridf_name, appending if file exists, creating file if not, with cnames, coords, and data as previously described in read(). Returns the integer return value of gft_out_full().
+
+Send any questions to Mike Barriault <mikebarriault@me.com>
